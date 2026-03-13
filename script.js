@@ -4,7 +4,7 @@
    IMPORTANT: Replace the placeholder below with your actual
    Google Apps Script Web App URL after deployment.
    ========================================================= */
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID_HERE/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5cHYDlT3hW8uNAMPnvFxHPt6uil4neUbuTFR7aQOz6zyeMbvuEjNnzssspPfJlO1u/exec';
 
 /* ── DOM Ready ─────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
