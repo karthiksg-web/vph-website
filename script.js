@@ -4,7 +4,7 @@
    IMPORTANT: Replace the placeholder below with your actual
    Google Apps Script Web App URL after deployment.
    ========================================================= */
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx5cHYDlT3hW8uNAMPnvFxHPt6uil4neUbuTFR7aQOz6zyeMbvuEjNnzssspPfJlO1u/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJZxXHVAwpRUdaRnjdJY0pIYKtPgvQZPt1I1xvD6WNEakzwrAf27WjZGJQimCLeJjb/exec';
 
 /* ── DOM Ready ─────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ── Navbar ─────────────────────────────────────────────── */
 function initNavbar() {
-  const navbar   = document.getElementById('navbar');
+  const navbar = document.getElementById('navbar');
   const hamburger = document.getElementById('hamburger');
-  const navLinks  = document.getElementById('nav-links');
-  const allLinks  = navLinks.querySelectorAll('.nav-link');
+  const navLinks = document.getElementById('nav-links');
+  const allLinks = navLinks.querySelectorAll('.nav-link');
 
   // Sticky on scroll
   window.addEventListener('scroll', () => {
@@ -106,7 +106,7 @@ function initScrollAnimations() {
 /* ── Gallery & Filter ───────────────────────────────────── */
 function initGallery() {
   // Filter buttons
-  const filterBtns  = document.querySelectorAll('.filter-btn');
+  const filterBtns = document.querySelectorAll('.filter-btn');
   const galleryItems = document.querySelectorAll('.gallery-item');
 
   filterBtns.forEach(btn => {
@@ -125,12 +125,12 @@ function initGallery() {
 
 /* ── Lightbox ───────────────────────────────────────────── */
 function initLightbox() {
-  const lightbox  = document.getElementById('lightbox');
-  const lbImg     = document.getElementById('lb-img');
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
   const lbCaption = document.getElementById('lb-caption');
-  const lbClose   = document.getElementById('lb-close');
-  const lbPrev    = document.getElementById('lb-prev');
-  const lbNext    = document.getElementById('lb-next');
+  const lbClose = document.getElementById('lb-close');
+  const lbPrev = document.getElementById('lb-prev');
+  const lbNext = document.getElementById('lb-next');
 
   let currentIndex = 0;
   let visibleItems = [];
@@ -193,10 +193,10 @@ function initLightbox() {
 
 /* ── Quote Form ─────────────────────────────────────────── */
 function initQuoteForm() {
-  const form      = document.getElementById('quote-form');
+  const form = document.getElementById('quote-form');
   const submitBtn = document.getElementById('form-submit-btn');
   const successEl = document.getElementById('form-success');
-  const errorEl   = document.getElementById('form-error');
+  const errorEl = document.getElementById('form-error');
 
   if (!form) return;
 
@@ -208,26 +208,26 @@ function initQuoteForm() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
     successEl.style.display = 'none';
-    errorEl.style.display   = 'none';
+    errorEl.style.display = 'none';
 
     const formData = new FormData(form);
-    const payload  = {
-      name:      formData.get('name'),
-      phone:     formData.get('phone'),
-      email:     formData.get('email') || 'Not provided',
+    const payload = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      email: formData.get('email') || 'Not provided',
       printType: formData.get('printType'),
-      quantity:  formData.get('quantity'),
+      quantity: formData.get('quantity'),
       paperType: formData.get('paperType') || 'Not specified',
       printSize: formData.get('printSize') || 'Not specified',
-      notes:     formData.get('notes') || '',
+      notes: formData.get('notes') || '',
       timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-      source:    'Website – Vishwanatha Printers'
+      source: 'Website – Vishwanatha Printers'
     };
 
     try {
       const response = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        mode:   'no-cors',  // Google Apps Script requires no-cors
+        mode: 'no-cors',  // Google Apps Script requires no-cors
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
@@ -252,10 +252,10 @@ function initQuoteForm() {
 }
 
 function validateForm(form) {
-  const name  = form.querySelector('#f-name');
+  const name = form.querySelector('#f-name');
   const phone = form.querySelector('#f-phone');
-  const type  = form.querySelector('#f-print-type');
-  const qty   = form.querySelector('#f-qty');
+  const type = form.querySelector('#f-print-type');
+  const qty = form.querySelector('#f-qty');
 
   clearErrors(form);
   let valid = true;
