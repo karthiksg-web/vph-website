@@ -198,6 +198,12 @@ function initLightbox() {
 function initVideoGallery() {
   const filterBtns = document.querySelectorAll('.video-filter-btn');
   const videoCards = document.querySelectorAll('.video-card');
+  const modal = document.getElementById('video-modal');
+  const modalPlayer = document.getElementById('video-modal-player');
+  const modalTitle = document.getElementById('video-modal-title');
+  const modalTag = document.getElementById('video-modal-tag');
+  const modalClose = document.getElementById('video-modal-close');
+  const modalBackdrop = document.getElementById('video-modal-backdrop');
 
   // Filter
   filterBtns.forEach(btn => {
@@ -213,31 +219,75 @@ function initVideoGallery() {
     });
   });
 
-  // Click to play/pause
+  // Vertical 9:16 Reels Modal open/close logic
+  function openVideoModal(videoSrc, titleText, tagHtml) {
+    if (!modal || !modalPlayer) return;
+    document.querySelectorAll('.video-card.playing video').forEach(v => {
+      v.pause();
+      v.closest('.video-card')?.classList.remove('playing');
+    });
+
+    modalPlayer.src = videoSrc;
+    modalPlayer.loop = true;
+    if (modalTitle) modalTitle.textContent = titleText;
+    if (modalTag) modalTag.innerHTML = tagHtml;
+
+    modal.classList.add('active');
+    modalPlayer.play().catch(() => {});
+  }
+
+  function closeVideoModal() {
+    if (!modal || !modalPlayer) return;
+    modal.classList.remove('active');
+    modalPlayer.pause();
+    modalPlayer.src = '';
+  }
+
+  if (modalClose) modalClose.addEventListener('click', closeVideoModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeVideoModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+      closeVideoModal();
+    }
+  });
+
+  // Video card loop and Fullscreen Reels controller
   videoCards.forEach(card => {
     const wrap = card.querySelector('.video-wrap');
     const video = card.querySelector('video');
+    const fsBtn = card.querySelector('.video-fullscreen-btn');
     if (!wrap || !video) return;
 
-    wrap.addEventListener('click', () => {
+    video.loop = true;
+
+    const getInfo = () => {
+      const title = card.querySelector('.video-info h4')?.textContent || '';
+      const tag = card.querySelector('.video-tag')?.innerHTML || '';
+      return { title, tag };
+    };
+
+    // Click card wrap to play inline or open Reels modal
+    wrap.addEventListener('click', (e) => {
+      if (e.target.closest('.video-fullscreen-btn')) return;
+
       if (video.paused) {
-        // Pause all other playing videos first
         document.querySelectorAll('.video-card.playing video').forEach(v => {
           v.pause();
-          v.closest('.video-card').classList.remove('playing');
+          v.closest('.video-card')?.classList.remove('playing');
         });
-        video.play();
+        video.play().catch(() => {});
         card.classList.add('playing');
-      } else {
-        video.pause();
-        card.classList.remove('playing');
       }
     });
 
-    // When video ends loop or is paused externally
-    video.addEventListener('ended', () => {
-      card.classList.remove('playing');
-    });
+    // Fullscreen button opens Vertical 9:16 Instagram Reels / TikTok style modal
+    if (fsBtn) {
+      fsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const { title, tag } = getInfo();
+        openVideoModal(video.src, title, tag);
+      });
+    }
   });
 }
 
