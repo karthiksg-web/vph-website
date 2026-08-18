@@ -1461,13 +1461,163 @@ ul { list-style: none; }
 }
 .final-cta-dir-btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
 
+/* ===== VIDEO SHOWCASE ===== */
+.video-showcase {
+  padding: 100px 0;
+  background: linear-gradient(180deg, white 0%, var(--gray-50) 100%);
+}
+
+.video-filter {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.video-filter-btn {
+  padding: 10px 24px;
+  border-radius: 50px;
+  border: 2px solid var(--gray-200);
+  background: white;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Outfit', sans-serif;
+}
+.video-filter-btn.active,
+.video-filter-btn:hover {
+  background: linear-gradient(135deg, var(--purple-light), var(--pink));
+  color: white;
+  border-color: transparent;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.video-card {
+  background: white;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+}
+.video-card.hidden { display: none; }
+.video-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(109, 40, 217, 0.18);
+  border-color: transparent;
+}
+.video-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple-light), var(--pink));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+  z-index: 2;
+}
+.video-card:hover::before { transform: scaleX(1); }
+
+.video-wrap {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--gray-200);
+  cursor: pointer;
+}
+.video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.video-card:hover .video-wrap video {
+  transform: scale(1.03);
+}
+
+.video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, rgba(76, 29, 149, 0.65) 0%, rgba(0, 0, 0, 0.15) 50%, transparent 100%);
+  transition: var(--transition);
+  pointer-events: none;
+}
+.video-play-overlay i {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.4rem;
+  transition: var(--transition);
+  padding-left: 4px;
+}
+.video-card:hover .video-play-overlay i {
+  background: linear-gradient(135deg, var(--purple-light), var(--pink));
+  border-color: transparent;
+  transform: scale(1.12);
+  box-shadow: 0 8px 30px rgba(219, 39, 119, 0.5);
+}
+.video-card.playing .video-play-overlay {
+  opacity: 0;
+}
+
+.video-info {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.video-info h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  line-height: 1.35;
+  flex: 1;
+}
+.video-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--purple-light);
+  background: color-mix(in srgb, var(--purple-light) 10%, white);
+  padding: 4px 12px;
+  border-radius: 50px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.video-tag i { font-size: 0.7rem; }
+
 /* ===== RESPONSIVE ===== */
+
 
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-top-grid { grid-template-columns: 1fr 1fr; }
   .reviews-grid { grid-template-columns: repeat(2, 1fr); }
   .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .video-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -1505,6 +1655,7 @@ ul { list-style: none; }
   .footer-bottom-inner { flex-direction: column; text-align: center; }
 
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .video-grid { grid-template-columns: 1fr; }
 
   .dt-cards-grid { grid-template-columns: 1fr; max-width: 480px; }
   .design-tools { padding: 70px 0 60px; }

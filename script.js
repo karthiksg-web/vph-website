@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initGallery();
   initLightbox();
+  initVideoGallery();
   initQuoteForm();
   initScrollTop();
   setFooterYear();
@@ -97,7 +98,7 @@ function initScrollAnimations() {
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.service-card, .contact-card, .gallery-item, .review-card, .trust-card').forEach(el => {
+  document.querySelectorAll('.service-card, .contact-card, .gallery-item, .review-card, .trust-card, .video-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(24px)';
     el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
@@ -190,6 +191,53 @@ function initLightbox() {
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowLeft') lbPrev.click();
     if (e.key === 'ArrowRight') lbNext.click();
+  });
+}
+
+/* ── Video Gallery ──────────────────────────────────────── */
+function initVideoGallery() {
+  const filterBtns = document.querySelectorAll('.video-filter-btn');
+  const videoCards = document.querySelectorAll('.video-card');
+
+  // Filter
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.vfilter;
+      videoCards.forEach(card => {
+        const show = filter === 'all' || card.dataset.vcategory === filter;
+        card.classList.toggle('hidden', !show);
+      });
+    });
+  });
+
+  // Click to play/pause
+  videoCards.forEach(card => {
+    const wrap = card.querySelector('.video-wrap');
+    const video = card.querySelector('video');
+    if (!wrap || !video) return;
+
+    wrap.addEventListener('click', () => {
+      if (video.paused) {
+        // Pause all other playing videos first
+        document.querySelectorAll('.video-card.playing video').forEach(v => {
+          v.pause();
+          v.closest('.video-card').classList.remove('playing');
+        });
+        video.play();
+        card.classList.add('playing');
+      } else {
+        video.pause();
+        card.classList.remove('playing');
+      }
+    });
+
+    // When video ends loop or is paused externally
+    video.addEventListener('ended', () => {
+      card.classList.remove('playing');
+    });
   });
 }
 
